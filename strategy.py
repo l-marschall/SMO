@@ -14,7 +14,7 @@ beta = 0.05
 gamma = 0.8
 w = 200
 R = np.asarray(dataR(N, T))
-test = 'klappt git?'
+
 b = np.empty((T, 1), dtype=np.object)
 b1 = [[0, 1, 2, 3], [0, 2, 3, 4], [0, 2, 4, 5]]
 b2 = [[0, 1, 2, 3, 5], [0, 2, 3, 4, 5], [0, 2, 4, 5, 8]]
