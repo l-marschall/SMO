@@ -18,6 +18,10 @@ from GeneratorRealData import *
 
 
 def update(break_point, slope, grad_v, h, s, k, T, N):
+    '''
+    Would be nice if you could add a short description on every input
+    parameter of the function.
+    '''
 
     alpha = k/(k+s)
     newslope = []
