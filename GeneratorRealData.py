@@ -8,7 +8,7 @@ os.chdir(dir_path)
 data = pd.read_csv('finaldf.csv', index_col=0)
 idx = 1
 # I changed the riskless asset to return only 2%:
-data.insert(loc=idx, column="Riskless asset", value=0.5)
+data.insert(loc=idx, column="Riskless asset", value=1.00001)
 
 # rename the two exchange rates and reverse their order:
 data = data.rename(columns={'AUDUSD': 'USDAUD', 'EURUSD': 'USDEUR'})

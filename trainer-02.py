@@ -24,10 +24,12 @@ def fixcase2(index, curr_bp, curr_sl):
     if curr_sl[index] < curr_sl[index + 1]:
         print("deleted case 2")
         c1 = -1
-        for i1 in range(1, len(curr_sl)-index):
-            if curr_sl[index+i1+1] < mean[i1]:
-                c1 = index + i1  # index of last breakpoint to delete
-                break
+        
+        if index > len(curr_sl)-2:
+            for i1 in range(1, len(curr_sl)-index):
+                if curr_sl[index+i1+1] < mean[i1]:
+                    c1 = index + i1  # index of last breakpoint to delete
+                    break
         if c1 == -1:
             curr_sl[-1] = mean[-1]
             curr_sl = np.delete(curr_sl, range(index, len(curr_sl) - 1))
@@ -131,13 +133,13 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
     return (newslope, newbp)
 
 
-T = 5
-N = 3
+T = 30
+N = 5
 beta = 0.05
-gamma = 0.8
+gamma = 0.9
 w = 200  # initial wealth
-S = 40  # training iterations
-k = 500  # step size parameter
+S = 50  # training iterations
+k = 5  # step size parameter
 
 
 
@@ -169,11 +171,14 @@ for i in range(T):
 #slope1[1,0] = np.array ([[5, 4, 3.5, 3, 0], [4, 3.8, 3, 2, 1]] ,dtype=float)
 #slope1[2,0] = np.array ([[5, 4, 3.5, 3, 2, 0], [4, 3.8, 3, 2, 1, 0.8]] ,dtype=float)
 
+#Rsum = np.zeros((N,T))
 
 for s in range(S):
     R = np.asarray(dataR(N, T))
+    #Rsum = Rsum + R
     V, h, grad, finalwealth = strategy(bp, slopes, w, R, N, T, beta, gamma)
     slopes, bp = update(bp, slopes, grad, h, s, k, T, N)
 
 print(bp)
 print(slopes)
+#print(Rsum/S)

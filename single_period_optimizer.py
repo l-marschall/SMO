@@ -171,6 +171,7 @@ def CVaR(h, w, beta):
     # w: initial wealth
     # h: vector of holdings
     h = sorted(h)
+    h = h[1:]
     for i in range(len(h)):
         h[i] = h[i] - w
     S = len(h)
@@ -178,7 +179,7 @@ def CVaR(h, w, beta):
     summ = 0
     for i in range(l):
         summ = summ + h[i]
-    return - (summ / (S * (1-beta)) + h[l-1] * (1 - (l-1) / (S * (1 - beta))))
+    return -(summ / (S * (1-beta)) + h[l-1] * (1 - (l-1) / (S * (1 - beta))))
 
 
 beta = 0.05

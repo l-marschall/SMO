@@ -59,11 +59,10 @@ def strategy(b, s, w, R, N, T, beta, gamma):
     hopt = np.zeros((T+1, N))  # initialize output matrix of optimal post-decision variables
     grad = np.zeros((T+1, N))  # initialize output matrix of gradients
 
-    R0 = np.zeros(N)  # initialize return array for period = 0, 1 for first element and 0 otherwise
-    R0[0] = 1
+    R0 = np.ones(N)  # initialize return array for period = 0, 1 for first element and 0 otherwise
     h0 = np.zeros(N)
     h0[0] = w
-    h0 = np.asarray([20] * N)
+#    h0 = np.asarray([20] * N, dtype = float)
 
     hopt[0], grad[0] = optimize(h0, R0, b[0][0].tolist(), s[0][0].tolist())
 
