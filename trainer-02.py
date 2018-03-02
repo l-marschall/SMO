@@ -100,10 +100,10 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
 
                 if index < len(curr_sl)-1:
                     if curr_sl[index] < curr_sl[index + 1]:
-                        currbp, currsl = fixcase2(index, curr_bp, curr_sl)
+                        curr_bp, curr_sl = fixcase2(index, curr_bp, curr_sl)
 
                 if curr_sl[index] > curr_sl[index - 1]:
-                    currbp, currsl = fixcase1(index, curr_bp, curr_sl)
+                    curr_bp, curr_sl = fixcase1(index, curr_bp, curr_sl)
 
             newslope_t.append(curr_sl.tolist())
             newbp_t.append(curr_bp.tolist())
@@ -117,8 +117,8 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
     return (newslope, newbp)
 
 
-T = 3
-N = 2
+T = 5
+N = 3
 beta = 0.05
 gamma = 0.8
 w = 200  # initial wealth
@@ -138,7 +138,7 @@ slopes = np.empty((T, 1), dtype=np.object)
 for i in range(T):
     slopes_ij = []
     for j in range(N):
-        slopes_ij.append([2])
+        slopes_ij.append([3])
     slopes[i, 0] = np.array(slopes_ij, dtype=float)
 
 
