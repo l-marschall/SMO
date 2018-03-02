@@ -4,16 +4,17 @@ S. Hamed Mirsadeghi
 
 This file train the model.
 """
-import os
-currentFile = 'trainer-02'
-dir_path = os.path.dirname(os.path.realpath(currentFile))
-os.chdir(dir_path)
+#import os
+#currentFile = 'trainer-02'
+#dir_path = os.path.dirname(os.path.realpath(currentFile))
+#os.chdir(dir_path)
 import numpy as np
 from numpy import random as rd
 from strategy import *
 from single_period_optimizer import *
 from Generator import GenerateR
 from GeneratorRealData import *
+from test import *
 # This function updates the slope and break points for each senario s
 
 
@@ -136,7 +137,7 @@ N = 5
 beta = 0.05
 gamma = 0.9
 w = 1000  # initial wealth
-S = 300  # training iterations
+S = 300 # training iterations
 k = 10  # step size parameter
 
 
@@ -164,5 +165,12 @@ for s in range(S):
     V, h, grad, finalwealth = strategy(bp, slopes, w, R, N, T, beta, gamma)
     slopes, bp = update(bp, slopes, grad, h, s, k, T, N)
 
-print(bp)
-print(slopes)
+print(finalwealth)
+print(h)
+
+actualR = np.asarray(dataR(N, T))
+meanR = Rmean(N,T)
+meanR = meanR[0:N]
+hreal, wealthreal = test(bp,slopes,meanR,w,T,N,gamma,beta,actualR)
+
+print(wealthreal)

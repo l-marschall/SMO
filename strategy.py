@@ -60,9 +60,16 @@ def strategy(b, s, w, R, N, T, beta, gamma):
     grad = np.zeros((T+1, N))  # initialize output matrix of gradients
 
     R0 = np.ones(N)  # initialize return array for period = 0, 1 for first element and 0 otherwise
+    """
+    if R0 is all ones, we need theta to be 0, in order for
+     optimizer to be willing to randomize between all assets,
+     so that it will add breakpoints at all assets and start training
+     else all money will stay in bank, no breakpoints or slopes will be added to assets
+     (since 0 is already in breakpoints) and model will never get to try out these assets
+     I suggest for the first period we can just randomize instead of optimizing
+    """
     h0 = np.zeros(N)
     h0[0] = w
-#    h0 = np.asarray([20] * N, dtype = float)
 
     hopt[0], grad[0] = optimize(h0, R0, b[0][0].tolist(), s[0][0].tolist())
 

@@ -13,7 +13,7 @@ import numpy as np
 import copy
 from numpy import array
 
-theta = 0.00001
+theta = 0.0000
 
 
 def getcoord(bp, slopes):
