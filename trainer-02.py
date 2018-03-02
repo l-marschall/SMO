@@ -107,8 +107,6 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
 
             if h[i][j] not in curr_bp:
                 
-                if j != 0:
-                    print("addbp")
                 curr_bp = np.sort(np.hstack((curr_bp, h[i][j])))
                 index = np.where(curr_bp == h[i][j])[0][0]
                 new_slope = (1 - alpha) * curr_sl[index-1] + alpha * grad_v[i][j]
@@ -133,13 +131,13 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
     return (newslope, newbp)
 
 
-T = 30
+T = 250
 N = 5
 beta = 0.05
 gamma = 0.9
-w = 200  # initial wealth
-S = 50  # training iterations
-k = 5  # step size parameter
+w = 1000  # initial wealth
+S = 300  # training iterations
+k = 10  # step size parameter
 
 
 
@@ -160,25 +158,11 @@ for i in range(T):
 
 
 
-#break_point1 = np.empty((T, 1), dtype=np.object)
-#break_point1[0,0] = np.array ([[0, 2, 3, 4],[0, 1.5, 22, 30]] , dtype=float)
-#break_point1[1,0] = np.array ([[0, 1, 2, 3, 5], [0, 2, 3, 4, 5]]  , dtype=float)
-#break_point1[2,0] = np.array ([[0, 1, 2, 3, 5, 6], [0, 2, 3, 4, 5, 10]]  , dtype=float)
-#
-#
-#slope1 = np.empty((T, 1), dtype=np.object)
-#slope1[0,0] = np.array ([[4, 3, 2, 1],[55, 54, 1, 0.1]] ,dtype=float)
-#slope1[1,0] = np.array ([[5, 4, 3.5, 3, 0], [4, 3.8, 3, 2, 1]] ,dtype=float)
-#slope1[2,0] = np.array ([[5, 4, 3.5, 3, 2, 0], [4, 3.8, 3, 2, 1, 0.8]] ,dtype=float)
-
-#Rsum = np.zeros((N,T))
 
 for s in range(S):
     R = np.asarray(dataR(N, T))
-    #Rsum = Rsum + R
     V, h, grad, finalwealth = strategy(bp, slopes, w, R, N, T, beta, gamma)
     slopes, bp = update(bp, slopes, grad, h, s, k, T, N)
 
 print(bp)
 print(slopes)
-#print(Rsum/S)

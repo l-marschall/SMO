@@ -13,12 +13,12 @@ data.insert(loc=idx, column="Riskless asset", value=1.00001)
 # rename the two exchange rates and reverse their order:
 data = data.rename(columns={'AUDUSD': 'USDAUD', 'EURUSD': 'USDEUR'})
 data.iloc[0:, [3, 7]] = 1 / data.iloc[0:, [3, 7]]
-data = data[1:]
+
 
 # compute the growth rate of the exchange rates:
 data.iloc[0:, 2:] = 1 + data.iloc[0:, 2:].diff(periods=1, axis=0) / data.iloc[0:, 2:]
-np.mean(data.iloc[0:, 2:])
 
+data = data[1:]
 
 def dataR(numberofstocks, timeperiods, data=data):
     R = data.iloc[:, 1:(numberofstocks+1)].sample(n=timeperiods)  # replace=False is default.
