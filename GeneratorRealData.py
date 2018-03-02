@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project')
+os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project/SMO')
 
 data = pd.read_csv('finaldf.csv', index_col=0)
 idx = 1

@@ -1,6 +1,5 @@
 import os
-os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project')
-
+os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project/SMO')
 import copy
 import numpy as np
 from numpy import array
@@ -30,6 +29,14 @@ s3 = [[5, 4, 3.5, 3, 2, 0], [4, 3.8, 3, 2, 1, 0.8], [4, 3.8, 2, 2, 1.8, 0]]
 s[0, 0] = s1
 s[1, 0] = s2
 s[2, 0] = s3
+
+curr = np.asarray(b[0, 0][0])
+curr_s = np.asarray(s[0, 0][0])
+h = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+z = h[1][1]
+curr = np.sort(np.hstack((curr, z)))
+index = np.where(curr == z)[0][0]
+new_s = (1 - 0.2) * curr_s[index-1]
 
 
 def parameter_check(b, s):

@@ -5,15 +5,13 @@ S. Hamed Mirsadeghi
 This file train the model.
 """
 import os
-os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project')
-
+os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project/SMO')
 import numpy as np
 from numpy import random as rd
 from strategy import *
 from single_period_optimizer import *
 from Generator import GenerateR
 from GeneratorRealData import *
-
 # This function updates the slope and break points for each senario s
 
 
@@ -24,6 +22,10 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
     '''
 
     alpha = k/(k+s)
+    '''
+    as I understand it, s is a counter of the scenarios and
+    should increase after every iteration?!
+    '''
     newslope = []
     newbp = []
 
