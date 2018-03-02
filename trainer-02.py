@@ -5,7 +5,6 @@ S. Hamed Mirsadeghi
 This file train the model.
 """
 import os
-os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project')
 
 import numpy as np
 from numpy import random as rd
@@ -47,17 +46,18 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
                     if curr_sl[index] < curr_sl[index + 1]:
                         print("deleted case 2")
                         c1 = -1
-                        for i1 in range(len(curr_sl) - 1, index, -1):
-                            if curr_sl[i1] < mean[i1 - index - 1]:
-                                c1 = i1
+                        for i1 in range(1,len(curr_sl)-index):
+                            if curr_sl[index+i1+1] < mean[i1]:
+                                c1 = index + i1 #index of last breakpoint to delete
+                                break
                         if c1 == -1:
                             curr_sl[-1] = mean[-1]
                             curr_sl = np.delete(curr_sl, range(index, len(curr_sl) - 1))
                             curr_bp = np.delete(curr_bp, range(index, len(curr_sl) - 1))
                         else:
-                            curr_sl[c1 - 1] = mean[c1 - index - 1]
-                            curr_sl = np.delete(curr_sl, range(index, c1 - 1))
-                            curr_bp = np.delete(curr_bp, range(index, c1 - 1))
+                            curr_sl = np.delete(curr_sl, range(index, c1))
+                            curr_bp = np.delete(curr_bp, range(index, c1))
+                            curr_sl = np.insert(curr_sl, mean[c1-index],index)
 
                 elif curr_sl[index] > curr_sl[index - 1]:
                     print("deleted case 1")
@@ -123,3 +123,30 @@ for s in range(S):
 
 print(bp)
 print(slopes)
+
+
+def fixcase2(index,curr_bp, curr_sl):
+
+    mean = np.cumsum(curr_sl[index:]) / range(1, len(curr_sl) - index+1)
+
+    if curr_sl[index] < curr_sl[index + 1]:
+        print("deleted case 2")
+        c1 = -1
+        for i1 in range(1,len(curr_sl)-index):
+            if curr_sl[index+i1+1] < mean[i1]:
+                c1 = index + i1 #index of last breakpoint to delete
+                break
+        if c1 == -1:
+            curr_sl[-1] = mean[-1]
+            curr_sl = np.delete(curr_sl, range(index, len(curr_sl) - 1))
+            curr_bp = np.delete(curr_bp, range(index, len(curr_sl) - 1))
+        else:
+            curr_sl = np.delete(curr_sl, range(index, c1+1))
+            curr_bp = np.delete(curr_bp, range(index+1, c1+1))
+            curr_sl = np.insert(curr_sl, index, mean[c1-index] )
+    
+    return(curr_bp, curr_sl)
+
+curr_bp = np.array([0,2,2.5,3,4])
+curr_sl = np.array([4,3,1.8,2,1])
+index = 2
