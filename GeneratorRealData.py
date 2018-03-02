@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-#import os
-#currentFile = 'GeneratorRealData'
-#dir_path = os.path.dirname(os.path.realpath(currentFile))
-#os.chdir(dir_path)
+import os
+currentFile = 'GeneratorRealData'
+dir_path = os.path.dirname(os.path.realpath(currentFile))
+os.chdir(dir_path)
 
 data = pd.read_csv('finaldf.csv', index_col=0)
 idx = 1
