@@ -5,7 +5,9 @@ S. Hamed Mirsadeghi
 This file train the model.
 """
 import os
-os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project/SMO')
+currentFile = 'trainer-02'
+dir_path = os.path.dirname(os.path.realpath(currentFile))
+os.chdir(dir_path)
 import numpy as np
 from numpy import random as rd
 from strategy import *
@@ -13,6 +15,58 @@ from single_period_optimizer import *
 from Generator import GenerateR
 from GeneratorRealData import *
 # This function updates the slope and break points for each senario s
+
+
+def fixcase2(index, curr_bp, curr_sl):
+
+    mean = np.cumsum(curr_sl[index:]) / range(1, len(curr_sl) - index+1)
+
+    if curr_sl[index] < curr_sl[index + 1]:
+        print("deleted case 2")
+        c1 = -1
+        for i1 in range(1, len(curr_sl)-index):
+            if curr_sl[index+i1+1] < mean[i1]:
+                c1 = index + i1  # index of last breakpoint to delete
+                break
+        if c1 == -1:
+            curr_sl[-1] = mean[-1]
+            curr_sl = np.delete(curr_sl, range(index, len(curr_sl) - 1))
+            curr_bp = np.delete(curr_bp, range(index+1, len(curr_bp)))
+        else:
+            curr_sl = np.delete(curr_sl, range(index, c1+1))
+            curr_bp = np.delete(curr_bp, range(index+1, c1+1))
+            curr_sl = np.insert(curr_sl, index, mean[c1-index])
+
+    return(curr_bp, curr_sl)
+
+#curr_bp = np.array([0,2,2.5,3,4],dtype = float)
+#curr_sl = np.array([4,3,1.8,2,1],dtype = float)
+#index = 2
+
+
+def fixcase1(index, curr_bp, curr_sl):
+    print("deleted case 1")
+    mean = np.cumsum(curr_sl[index::-1])[::-1] / range(1, index+2)[::-1]
+
+    c2 = -1
+    for i2 in range(1, index+1):
+        if mean[-i2] < curr_sl[index-i2]:
+            c2 = index-i2+2  # index of first breakpoint to delete
+            break
+    if c2 == -1:
+        curr_sl = np.delete(curr_sl, range(index+1))
+        curr_bp = np.delete(curr_bp, range(1, index+1))
+        curr_sl = np.insert(curr_sl, 0, mean[0])
+    else:
+        curr_sl = np.delete(curr_sl, range(c2-1, index + 1))
+        curr_bp = np.delete(curr_bp, range(c2, index + 1))
+        curr_sl = np.insert(curr_sl, c2-1, mean[c2-index-2])
+
+    return(curr_bp, curr_sl)
+
+#curr_bp = np.array([0,2,2.5,3,4],dtype = float)
+#curr_sl = np.array([4,3,4,2,1],dtype = float)
+#index = 2
 
 
 def update(break_point, slope, grad_v, h, s, k, T, N):
@@ -43,40 +97,13 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
                 index = np.where(curr_bp == h[i][j])[0][0]
                 new_slope = (1 - alpha) * curr_sl[index-1] + alpha * grad_v[i][j]
                 curr_sl = np.insert(curr_sl, index, new_slope)
-                mean = np.cumsum(curr_sl[index:]) / range(1, len(curr_sl) - index+1)
 
                 if index < len(curr_sl)-1:
                     if curr_sl[index] < curr_sl[index + 1]:
-                        print("deleted case 2")
-                        c1 = -1
-                        for i1 in range(len(curr_sl) - 1, index, -1):
-                            if curr_sl[i1] < mean[i1 - index - 1]:
-                                c1 = i1
-                        if c1 == -1:
-                            curr_sl[-1] = mean[-1]
-                            curr_sl = np.delete(curr_sl, range(index, len(curr_sl) - 1))
-                            curr_bp = np.delete(curr_bp, range(index, len(curr_sl) - 1))
-                        else:
-                            curr_sl[c1 - 1] = mean[c1 - index - 1]
-                            curr_sl = np.delete(curr_sl, range(index, c1 - 1))
-                            curr_bp = np.delete(curr_bp, range(index, c1 - 1))
+                        currbp, currsl = fixcase2(index, curr_bp, curr_sl)
 
-                elif curr_sl[index] > curr_sl[index - 1]:
-                    print("deleted case 1")
-                    mean = np.cumsum(curr_sl[index::-1])[::-1] / range(1, index+2)[::-1]
-
-                    c2 = -1
-                    for i2 in range(0, index):
-                        if curr_sl[i2] > mean[i2 + 1]:
-                            c2 = i2
-                    if c2 == -1:
-                        curr_sl[0] = mean[0]
-                        curr_sl = np.delete(curr_sl, range(index, 0, -1))
-                        curr_bp = np.delete(curr_bp, range(index, 0, -1))
-                    else:
-                        curr_sl[c2 + 1] = mean[c2 + 1]
-                        curr_sl = np.delete(curr_sl, range(c2+2, index + 1))
-                        curr_bp = np.delete(curr_bp, range(c2+2, index + 1))
+                if curr_sl[index] > curr_sl[index - 1]:
+                    currbp, currsl = fixcase1(index, curr_bp, curr_sl)
 
             newslope_t.append(curr_sl.tolist())
             newbp_t.append(curr_bp.tolist())
@@ -94,6 +121,10 @@ T = 3
 N = 2
 beta = 0.05
 gamma = 0.8
+w = 200  # initial wealth
+S = 40  # training iterations
+k = 500  # step size parameter
+
 
 # initialize bp,slopes
 bp = np.empty((T, 1), dtype=np.object)
@@ -110,13 +141,6 @@ for i in range(T):
         slopes_ij.append([2])
     slopes[i, 0] = np.array(slopes_ij, dtype=float)
 
-# initial wealth
-w = 200
-
-
-# train the model
-S = 40
-k = 500
 
 for s in range(S):
     R = np.asarray(dataR(N, T))

@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 import os
-os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project/SMO')
+currentFile = 'GeneratorRealData'
+dir_path = os.path.dirname(os.path.realpath(currentFile))
+os.chdir(dir_path)
 
 data = pd.read_csv('finaldf.csv', index_col=0)
 idx = 1

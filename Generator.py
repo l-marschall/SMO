@@ -1,3 +1,7 @@
+import os
+currentFile = 'Generator'
+dir_path = os.path.dirname(os.path.realpath(currentFile))
+os.chdir(dir_path)
 import numpy as np
 
 

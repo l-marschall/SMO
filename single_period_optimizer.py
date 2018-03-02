@@ -5,8 +5,9 @@ Created on Wed Feb 21 22:11:39 2018
 @author: kellykkl
 """
 import os
-os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project/SMO')
-
+currentFile = 'singe_period_optimizer'
+dir_path = os.path.dirname(os.path.realpath(currentFile))
+os.chdir(dir_path)
 from gurobipy import GRB, GurobiError, Model, quicksum
 import numpy as np
 import copy

@@ -1,5 +1,7 @@
 import os
-os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project/SMO')
+currentFile = 'strategy.py'
+dir_path = os.path.dirname(os.path.realpath(currentFile))
+os.chdir(dir_path)
 import copy
 import numpy as np
 from numpy import array
