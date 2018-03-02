@@ -1,5 +1,4 @@
 import os
-os.chdir('/home/laurits/Desktop/BGSE/Stochastic Models and Optimization/Final Project')
 
 import copy
 import numpy as np

@@ -40,25 +40,11 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
                 index = np.where(curr_bp == h[i][j])[0][0]
                 new_slope = (1 - alpha) * curr_sl[index-1] + alpha * grad_v[i][j]
                 curr_sl = np.insert(curr_sl, index, new_slope)
-                mean = np.cumsum(curr_sl[index:]) / range(1, len(curr_sl) - index+1)
 
                 if index < len(curr_sl)-1:
                     if curr_sl[index] < curr_sl[index + 1]:
-                        print("deleted case 2")
-                        c1 = -1
-                        for i1 in range(1,len(curr_sl)-index):
-                            if curr_sl[index+i1+1] < mean[i1]:
-                                c1 = index + i1 #index of last breakpoint to delete
-                                break
-                        if c1 == -1:
-                            curr_sl[-1] = mean[-1]
-                            curr_sl = np.delete(curr_sl, range(index, len(curr_sl) - 1))
-                            curr_bp = np.delete(curr_bp, range(index, len(curr_sl) - 1))
-                        else:
-                            curr_sl = np.delete(curr_sl, range(index, c1))
-                            curr_bp = np.delete(curr_bp, range(index, c1))
-                            curr_sl = np.insert(curr_sl, mean[c1-index],index)
-
+                        currbp,currsl = fixcase2(index,curr_bp,curr_sl)
+                        
                 elif curr_sl[index] > curr_sl[index - 1]:
                     print("deleted case 1")
                     mean = np.cumsum(curr_sl[index::-1])[::-1] / range(1, index+2)[::-1]
@@ -139,7 +125,7 @@ def fixcase2(index,curr_bp, curr_sl):
         if c1 == -1:
             curr_sl[-1] = mean[-1]
             curr_sl = np.delete(curr_sl, range(index, len(curr_sl) - 1))
-            curr_bp = np.delete(curr_bp, range(index, len(curr_sl) - 1))
+            curr_bp = np.delete(curr_bp, range(index+1, len(curr_bp)))
         else:
             curr_sl = np.delete(curr_sl, range(index, c1+1))
             curr_bp = np.delete(curr_bp, range(index+1, c1+1))
@@ -150,3 +136,6 @@ def fixcase2(index,curr_bp, curr_sl):
 curr_bp = np.array([0,2,2.5,3,4])
 curr_sl = np.array([4,3,1.8,2,1])
 index = 2
+
+def fixcase1(index,curr_bp,curr_sl):
+    pass
