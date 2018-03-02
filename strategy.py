@@ -1,5 +1,7 @@
 import os
-
+currentFile = 'strategy.py'
+dir_path = os.path.dirname(os.path.realpath(currentFile))
+os.chdir(dir_path)
 import copy
 import numpy as np
 from numpy import array

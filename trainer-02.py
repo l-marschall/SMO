@@ -5,27 +5,28 @@ S. Hamed Mirsadeghi
 This file train the model.
 """
 import os
-
+currentFile = 'trainer-02'
+dir_path = os.path.dirname(os.path.realpath(currentFile))
+os.chdir(dir_path)
 import numpy as np
 from numpy import random as rd
 from strategy import *
 from single_period_optimizer import *
 from Generator import GenerateR
 from GeneratorRealData import *
-
 # This function updates the slope and break points for each senario s
 
 
-def fixcase2(index,curr_bp, curr_sl):
+def fixcase2(index, curr_bp, curr_sl):
 
     mean = np.cumsum(curr_sl[index:]) / range(1, len(curr_sl) - index+1)
 
     if curr_sl[index] < curr_sl[index + 1]:
         print("deleted case 2")
         c1 = -1
-        for i1 in range(1,len(curr_sl)-index):
+        for i1 in range(1, len(curr_sl)-index):
             if curr_sl[index+i1+1] < mean[i1]:
-                c1 = index + i1 #index of last breakpoint to delete
+                c1 = index + i1  # index of last breakpoint to delete
                 break
         if c1 == -1:
             curr_sl[-1] = mean[-1]
@@ -34,8 +35,8 @@ def fixcase2(index,curr_bp, curr_sl):
         else:
             curr_sl = np.delete(curr_sl, range(index, c1+1))
             curr_bp = np.delete(curr_bp, range(index+1, c1+1))
-            curr_sl = np.insert(curr_sl, index, mean[c1-index] )
-    
+            curr_sl = np.insert(curr_sl, index, mean[c1-index])
+
     return(curr_bp, curr_sl)
 
 #test for c1 != -1
@@ -48,30 +49,32 @@ def fixcase2(index,curr_bp, curr_sl):
 #curr_sl = np.array([4,3,1.8,2,1],dtype = float)
 #index = 2
 
-def fixcase1(index,curr_bp,curr_sl):
+
+def fixcase1(index, curr_bp, curr_sl):
     print("deleted case 1")
     mean = np.cumsum(curr_sl[index::-1])[::-1] / range(1, index+2)[::-1]
 
     c2 = -1
     for i2 in range(1, index+1):
         if mean[-i2] < curr_sl[index-i2]:
-            c2 = index-i2+2 #index of first breakpoint to delete
+            c2 = index-i2+2  # index of first breakpoint to delete
             break
     if c2 == -1:
         curr_sl = np.delete(curr_sl, range(index+1))
-        curr_bp = np.delete(curr_bp, range(1,index+1))
-        curr_sl = np.insert(curr_sl,0,mean[0])
+        curr_bp = np.delete(curr_bp, range(1, index+1))
+        curr_sl = np.insert(curr_sl, 0, mean[0])
     else:
         curr_sl = np.delete(curr_sl, range(c2-1, index + 1))
         curr_bp = np.delete(curr_bp, range(c2, index + 1))
         curr_sl = np.insert(curr_sl, c2-1, mean[c2-index-2])
-    
-    return(curr_bp,curr_sl)
+
+    return(curr_bp, curr_sl)
 
 #test for c2 != -1
 #curr_bp = np.array([0,2,2.5,3,4],dtype = float)
 #curr_sl = np.array([4,3,4,2,1],dtype = float)
 #index = 2
+
 
 #test for c2 == -1
 #curr_bp = np.array([0,2,2.5,3,4],dtype = float)
@@ -85,6 +88,10 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
     '''
 
     alpha = k/(k+s)
+    '''
+    as I understand it, s is a counter of the scenarios and
+    should increase after every iteration?!
+    '''
     newslope = []
     newbp = []
 
@@ -107,10 +114,10 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
 
                 if index < len(curr_sl)-1:
                     if curr_sl[index] < curr_sl[index + 1]:
-                        curr_bp,curr_sl = fixcase2(index,curr_bp,curr_sl)
-                        
+                        curr_bp, curr_sl = fixcase2(index, curr_bp, curr_sl)
+
                 if curr_sl[index] > curr_sl[index - 1]:
-                    curr_bp,curr_sl = fixcase1(index,curr_bp,curr_sl)
+                    curr_bp, curr_sl = fixcase1(index, curr_bp, curr_sl)
 
             newslope_t.append(curr_sl.tolist())
             newbp_t.append(curr_bp.tolist())
@@ -128,9 +135,9 @@ T = 5
 N = 3
 beta = 0.05
 gamma = 0.8
-w = 200 #initial wealth
-S = 20 #training iterations
-k = 500 #step size parameter
+w = 200  # initial wealth
+S = 40  # training iterations
+k = 500  # step size parameter
 
 
 
@@ -150,6 +157,7 @@ for i in range(T):
     slopes[i, 0] = np.array(slopes_ij, dtype=float)
 
 
+
 #break_point1 = np.empty((T, 1), dtype=np.object)
 #break_point1[0,0] = np.array ([[0, 2, 3, 4],[0, 1.5, 22, 30]] , dtype=float)
 #break_point1[1,0] = np.array ([[0, 1, 2, 3, 5], [0, 2, 3, 4, 5]]  , dtype=float)
@@ -162,7 +170,6 @@ for i in range(T):
 #slope1[2,0] = np.array ([[5, 4, 3.5, 3, 2, 0], [4, 3.8, 3, 2, 1, 0.8]] ,dtype=float)
 
 
-
 for s in range(S):
     R = np.asarray(dataR(N, T))
     V, h, grad, finalwealth = strategy(bp, slopes, w, R, N, T, beta, gamma)
@@ -170,4 +177,3 @@ for s in range(S):
 
 print(bp)
 print(slopes)
-
