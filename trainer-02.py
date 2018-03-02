@@ -38,6 +38,12 @@ def fixcase2(index,curr_bp, curr_sl):
     
     return(curr_bp, curr_sl)
 
+#test for c1 != -1
+#curr_bp = np.array([0,2,2.5,3,4],dtype = float)
+#curr_sl = np.array([4,3,1.8,2,1],dtype = float)
+#index = 2
+
+#test for c1 == -1
 #curr_bp = np.array([0,2,2.5,3,4],dtype = float)
 #curr_sl = np.array([4,3,1.8,2,1],dtype = float)
 #index = 2
@@ -62,8 +68,14 @@ def fixcase1(index,curr_bp,curr_sl):
     
     return(curr_bp,curr_sl)
 
+#test for c2 != -1
 #curr_bp = np.array([0,2,2.5,3,4],dtype = float)
 #curr_sl = np.array([4,3,4,2,1],dtype = float)
+#index = 2
+
+#test for c2 == -1
+#curr_bp = np.array([0,2,2.5,3,4],dtype = float)
+#curr_sl = np.array([4,3,10,2,1],dtype = float)
 #index = 2
     
 def update(break_point, slope, grad_v, h, s, k, T, N):
@@ -85,7 +97,9 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
             curr_sl = np.asarray(slope[i][0][j])
 
             if h[i][j] not in curr_bp:
-
+                
+                if j != 0:
+                    print("addbp")
                 curr_bp = np.sort(np.hstack((curr_bp, h[i][j])))
                 index = np.where(curr_bp == h[i][j])[0][0]
                 new_slope = (1 - alpha) * curr_sl[index-1] + alpha * grad_v[i][j]
@@ -115,7 +129,7 @@ N = 3
 beta = 0.05
 gamma = 0.8
 w = 200 #initial wealth
-S = 40 #training iterations
+S = 20 #training iterations
 k = 500 #step size parameter
 
 
@@ -134,6 +148,18 @@ for i in range(T):
     for j in range(N):
         slopes_ij.append([3])
     slopes[i, 0] = np.array(slopes_ij, dtype=float)
+
+
+#break_point1 = np.empty((T, 1), dtype=np.object)
+#break_point1[0,0] = np.array ([[0, 2, 3, 4],[0, 1.5, 22, 30]] , dtype=float)
+#break_point1[1,0] = np.array ([[0, 1, 2, 3, 5], [0, 2, 3, 4, 5]]  , dtype=float)
+#break_point1[2,0] = np.array ([[0, 1, 2, 3, 5, 6], [0, 2, 3, 4, 5, 10]]  , dtype=float)
+#
+#
+#slope1 = np.empty((T, 1), dtype=np.object)
+#slope1[0,0] = np.array ([[4, 3, 2, 1],[55, 54, 1, 0.1]] ,dtype=float)
+#slope1[1,0] = np.array ([[5, 4, 3.5, 3, 0], [4, 3.8, 3, 2, 1]] ,dtype=float)
+#slope1[2,0] = np.array ([[5, 4, 3.5, 3, 2, 0], [4, 3.8, 3, 2, 1, 0.8]] ,dtype=float)
 
 
 

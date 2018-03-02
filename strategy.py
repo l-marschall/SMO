@@ -61,6 +61,7 @@ def strategy(b, s, w, R, N, T, beta, gamma):
     R0[0] = 1
     h0 = np.zeros(N)
     h0[0] = w
+    h0 = np.asarray([20] * N)
 
     hopt[0], grad[0] = optimize(h0, R0, b[0][0].tolist(), s[0][0].tolist())
 
