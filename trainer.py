@@ -128,7 +128,7 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
         newslope.append(np.array([newslope_t]))
         newbp.append(np.array([newbp_t]))
 
-    return (newslope, newbp)
+    return (newbp, newslope)
 
 
 def initialize_bp(N, T):
