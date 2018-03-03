@@ -13,8 +13,6 @@ import numpy as np
 import copy
 from numpy import array
 
-theta = 0.0000
-
 
 def getcoord(bp, slopes):
 
@@ -40,7 +38,7 @@ def getcoord(bp, slopes):
     return (x, y)
 
 
-def optimize(hp, Rt, bp, slopes):
+def optimize(hp, Rt, bp, slopes, theta):
     """
     :param R:       Returns at time t (Gross)
     :param hp:      Post-decision variable (pre-return) at time t-1
@@ -72,7 +70,7 @@ def optimize(hp, Rt, bp, slopes):
     m.update()
 
     """Add Objective Function"""
-    outputCashFlow = (1+theta) * quicksum(xv) - (1-theta) * quicksum(yv)
+    outputCashFlow = (1 + theta) * quicksum(xv) - (1 - theta) * quicksum(yv)
     m.setPWLObj(hpv[0], x[0], y[0])
     for i in range(1, N+1):
         m.setPWLObj(hpv[i], x[i], y[i])
@@ -95,7 +93,7 @@ def optimize(hp, Rt, bp, slopes):
     # print(m.Status)
 
     # optimal variables
-    #print([(v.varName, v.X) for v in m.getVars()])
+    # print([(v.varName, v.X) for v in m.getVars()])
 
     # optimal h vector
     hopt = []
@@ -156,17 +154,6 @@ def optimize(hp, Rt, bp, slopes):
     return (np.asarray(hopt), np.asarray(grad))
 
 
-hp = np.asarray([100, 0, 0])
-Rt = np.asarray([1.1, 1.2, 0.9])
-bp = [[0, 1, 2, 3], [0, 2, 3, 4], [0, 2, 4, 5]]
-slopes = [[5, 4, 3, 0], [4, 3, 2, 1], [4, 2, 2, 0]]
-
-# test
-(hopt, grad) = optimize(hp, Rt, bp, slopes)
-print(hopt)
-print(grad)
-
-
 def CVaR(h, w, beta):
     # w: initial wealth
     # h: vector of holdings
@@ -182,14 +169,8 @@ def CVaR(h, w, beta):
     return -(summ / (S * (1-beta)) + h[l-1] * (1 - (l-1) / (S * (1 - beta))))
 
 
-beta = 0.05
-gamma = 0.8
-w = 200
-
 # for last period we will have a different value function (no longer completely separable)
 # only have one V_T, not N+1 V_i,T's
-
-
 def V_lastp(hp, RT, gamma, beta, w):
     """
     :param R:       Returns at time T (Gross)
@@ -212,11 +193,3 @@ def V_lastp(hp, RT, gamma, beta, w):
         grad.append(Vnew-Vold)
 
     return (Vold, np.asarray(grad), finalwealth)
-
-
-# test
-hp = np.array([3, 8, 6])
-RT = np.array([1.1, 1.02, 0.9])
-(Vold, grad, finalwealth) = V_lastp(hp, RT, gamma, beta, w)
-print(Vold)
-print(grad)
