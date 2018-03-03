@@ -14,9 +14,9 @@ from strategy import *
 from single_period_optimizer import *
 from GeneratorRealData import *
 
-N = 9  # number of stocks selected without the riskless assset (bank account); max: 9!
+N = 10  # number of stocks selected including the riskless assset (bank account); max: 10!
 T = 52  # we always consider now for one iteration one year (= 52 weeks)!
-interst_rate = 1.0001  # interst rate of the riskless asset per week!
+interest_rate = 1.0001  # interst rate of the riskless asset per week!
 beta = 0.05
 gamma = 0.9
 theta = 0.001
@@ -49,3 +49,7 @@ def excecute(N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.cs
         bp, slopes, w, R, N, T, beta, gamma, theta)
 
     return(finalwealth, h, slopes, V_optimization, finalwealth_test)
+
+
+finalwealth, h, slopes, V_optimization, finalwealth_test = execute(
+    N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv')
