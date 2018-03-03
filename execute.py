@@ -15,7 +15,8 @@ from single_period_optimizer import *
 from GeneratorRealData import *
 
 N = 10  # number of stocks selected including the riskless assset (bank account); max: 10!
-T = 52  # we always consider now for one iteration one year (= 52 weeks)!
+year = 52  # each year has 52 weeks
+T = year * 3  # we always consider now for one iteration three years (= 52 weeks * 3)!
 interest_rate = 1.0001  # interst rate of the riskless asset per week!
 beta = 0.05
 gamma = 0.9
@@ -27,9 +28,9 @@ k = 100  # step size parameter
 def execute(N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv'):
 
     data_train, data_test = dataR(N, T, interest_rate, file_csv)
-    data_test = data_train[200:253]
-    data_train = data_train[:500]
-    
+    # data_test = data_train[200:253]
+    # data_train = data_train[:500]
+
     nrows = data_train.shape[0]  # number of rows of the available training data
     # the training iterations are always maximized now and determined by the numer of datapoints!
     S = nrows - T
