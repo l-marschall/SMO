@@ -22,7 +22,7 @@ def fixcase2(index, curr_bp, curr_sl):
     mean = np.cumsum(curr_sl[index:]) / range(1, len(curr_sl) - index+1)
 
     if curr_sl[index] < curr_sl[index + 1]:
-        print("deleted case 2")
+        #print("deleted case 2")
         c1 = -1
 
         if index > len(curr_sl)-2:
@@ -53,7 +53,7 @@ def fixcase2(index, curr_bp, curr_sl):
 
 
 def fixcase1(index, curr_bp, curr_sl):
-    print("deleted case 1")
+    #print("deleted case 1")
     mean = np.cumsum(curr_sl[index::-1])[::-1] / range(1, index+2)[::-1]
 
     c2 = -1
