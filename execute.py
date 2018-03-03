@@ -18,6 +18,7 @@ T = 250
 N = 5
 beta = 0.05
 gamma = 0.9
+theta = 0.001
 w = 1000  # initial wealth
 S = 300  # training iterations
 k = 10  # step size parameter
@@ -35,6 +36,6 @@ def excecute(N, T, beta, gamma, theta, w, S, k):
     actualR = np.asarray(dataR(N, T))
     meanR = Rmean(N, T)
     meanR = meanR[0:N]
-    hreal, wealthreal = test(bp, slopes, meanR, w, T, N, gamma, beta, actualR)
+    hreal, wealthreal = test(bp, slopes, meanR, w, T, N, gamma, beta, theta, actualR)
 
     return(finalwealth, h, hreal, wealthreal)

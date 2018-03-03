@@ -4,7 +4,6 @@ Created on Fri Mar  2 20:44:04 2018
 
 @author: kellykkl
 """
-
 import os
 currentFile = 'test.py'
 dir_path = os.path.dirname(os.path.realpath(currentFile))
@@ -16,10 +15,9 @@ from single_period_optimizer import *
 from Generator import GenerateR
 from GeneratorRealData import *
 
+
 # To evaluate the trained model
-
-
-def test(bp, slopes, meanR, w, T, N, gamma, beta, actualR):
+def test(bp, slopes, meanR, w, T, N, gamma, beta, theta, actualR):
     """
     :param bp:      Breakpoints of trained value functions (all periods)
     :param slopes:  Slopes of trained value functions (all periods)
@@ -39,13 +37,13 @@ def test(bp, slopes, meanR, w, T, N, gamma, beta, actualR):
 #    h0 = np.asarray([20] * N, dtype = float)
 
     # hopt[0] is post decision var at period 0
-    hopt[0], grad[0] = optimize(h0, R0, bp[0][0].tolist(), slopes[0][0].tolist())
+    hopt[0], grad[0] = optimize(h0, R0, bp[0][0].tolist(), slopes[0][0].tolist(), theta)
     # now, hopt[1] is pre decision var at period 1
-    hopt[1] = hopt[0]*actualR[0]
+    hopt[1] = hopt[0] * actualR[0]
 
     for i in range(1, T-1):
         # post decision var at period i
-        hopt[i], grad[i] = optimize(hopt[i], meanR, bp[i][0].tolist(), slopes[i][0].tolist())
+        hopt[i], grad[i] = optimize(hopt[i], meanR, bp[i][0].tolist(), slopes[i][0].tolist(), theta)
         # pre decision variable at period i+1
         hopt[i+1] = hopt[i] * actualR[i]
 
