@@ -44,8 +44,8 @@ def strategy(b, s, w, R, N, T, beta, gamma, theta):
     """
     h0 = np.zeros(N)
     h0[0] = w
-
-    hopt[0], grad[0] = optimize(h0, R0, b[0][0].tolist(), s[0][0].tolist(), theta)
+    theta0 = 0
+    hopt[0], grad[0] = optimize(h0, R0, b[0][0].tolist(), s[0][0].tolist(), theta0)
 
     for i in range(1, T):
         # find function in single_period_optimizer.py
