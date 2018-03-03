@@ -24,7 +24,7 @@ w = 1000  # initial wealth
 k = 10  # step size parameter
 
 
-def excecute(N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv'):
+def execute(N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv'):
 
     data_train, data_test = dataR(N, T, interest_rate, file_csv)
     nrows = data_train.shape[0]  # number of rows of the available training data
