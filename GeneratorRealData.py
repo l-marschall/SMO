@@ -14,20 +14,22 @@ data.insert(loc=idx, column="Riskless asset", value=1.00001)
 data = data.rename(columns={'AUDUSD': 'USDAUD', 'EURUSD': 'USDEUR'})
 data.iloc[0:, [3, 7]] = 1 / data.iloc[0:, [3, 7]]
 
-
 # compute the growth rate of the exchange rates:
 data.iloc[0:, 2:] = 1 + data.iloc[0:, 2:].diff(periods=1, axis=0) / data.iloc[0:, 2:]
 
 data = data[1:]
 
+
 def dataR(numberofstocks, timeperiods, data=data):
     R = data.iloc[:, 1:(numberofstocks+1)].sample(n=timeperiods)  # replace=False is default.
     return(R)
 
-def Rmean(N,T,data=data):
-    meanR = np.asarray(np.mean(data,axis=0))
+
+def Rmean(N, T, data=data):
+    meanR = np.asarray(np.mean(data, axis=0))
     return(meanR)
-    
+
+
 # Examples
 Realdata = dataR(numberofstocks=11, timeperiods=100)
 Realdata

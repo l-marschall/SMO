@@ -24,7 +24,7 @@ def fixcase2(index, curr_bp, curr_sl):
     if curr_sl[index] < curr_sl[index + 1]:
         print("deleted case 2")
         c1 = -1
-        
+
         if index > len(curr_sl)-2:
             for i1 in range(1, len(curr_sl)-index):
                 if curr_sl[index+i1+1] < mean[i1]:
@@ -41,15 +41,15 @@ def fixcase2(index, curr_bp, curr_sl):
 
     return(curr_bp, curr_sl)
 
-#test for c1 != -1
-#curr_bp = np.array([0,2,2.5,3,4],dtype = float)
-#curr_sl = np.array([4,3,1.8,2,1],dtype = float)
-#index = 2
+# test for c1 != -1
+# curr_bp = np.array([0,2,2.5,3,4],dtype = float)
+# curr_sl = np.array([4,3,1.8,2,1],dtype = float)
+# index = 2
 
-#test for c1 == -1
-#curr_bp = np.array([0,2,2.5,3,4],dtype = float)
-#curr_sl = np.array([4,3,1.8,2,1],dtype = float)
-#index = 2
+# test for c1 == -1
+# curr_bp = np.array([0,2,2.5,3,4],dtype = float)
+# curr_sl = np.array([4,3,1.8,2,1],dtype = float)
+# index = 2
 
 
 def fixcase1(index, curr_bp, curr_sl):
@@ -72,17 +72,17 @@ def fixcase1(index, curr_bp, curr_sl):
 
     return(curr_bp, curr_sl)
 
-#test for c2 != -1
-#curr_bp = np.array([0,2,2.5,3,4],dtype = float)
-#curr_sl = np.array([4,3,4,2,1],dtype = float)
-#index = 2
+# test for c2 != -1
+# curr_bp = np.array([0,2,2.5,3,4],dtype = float)
+# curr_sl = np.array([4,3,4,2,1],dtype = float)
+# index = 2
 
 
-#test for c2 == -1
-#curr_bp = np.array([0,2,2.5,3,4],dtype = float)
-#curr_sl = np.array([4,3,10,2,1],dtype = float)
-#index = 2
-    
+# test for c2 == -1
+# curr_bp = np.array([0,2,2.5,3,4],dtype = float)
+# curr_sl = np.array([4,3,10,2,1],dtype = float)
+# index = 2
+
 def update(break_point, slope, grad_v, h, s, k, T, N):
     '''
     Would be nice if you could add a short description on every input
@@ -106,7 +106,7 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
             curr_sl = np.asarray(slope[i][0][j])
 
             if h[i][j] not in curr_bp:
-                
+
                 curr_bp = np.sort(np.hstack((curr_bp, h[i][j])))
                 index = np.where(curr_bp == h[i][j])[0][0]
                 new_slope = (1 - alpha) * curr_sl[index-1] + alpha * grad_v[i][j]
@@ -131,48 +131,21 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
     return (newslope, newbp)
 
 
-T = 30
-N = 5
-beta = 0.05
-gamma = 0.5
-w = 200  # initial wealth
-S = 40 # training iterations
-k = 200  # step size parameter
+def initialize_bp(N, T):
+    bp = np.empty((T, 1), dtype=np.object)
+    for i in range(T):
+        bp_ij = []
+        for j in range(N):
+            bp_ij.append([0])
+        bp[i, 0] = np.array(bp_ij, dtype=float)
+    return(bp)
 
 
-
-# initialize bp,slopes
-bp = np.empty((T, 1), dtype=np.object)
-for i in range(T):
-    bp_ij = []
-    for j in range(N):
-        bp_ij.append([0])
-    bp[i, 0] = np.array(bp_ij, dtype=float)
-
-slopes = np.empty((T, 1), dtype=np.object)
-for i in range(T):
-    slopes_ij = []
-    for j in range(N):
-        slopes_ij.append([2])
-    slopes[i, 0] = np.array(slopes_ij, dtype=float)
-
-
-
-
-for s in range(S):
-    R = abs(np.asarray(GenerateR(N, T)))
-    V, h, grad, finalwealth = strategy(bp, slopes, w, R, N, T, beta, gamma)
-    slopes, bp = update(bp, slopes, grad, h, s, k, T, N)
-
-print(finalwealth)
-print(h)
-
-#test 
-
-R=abs(np.asarray(GenerateR(N,T)))
-Vreal, hreal, gradreal, wealthreal = strategy(bp,slopes,w,R,N,T,beta,gamma)
-
-print(wealthreal)
-print(hreal)
-
-#slopes aren't changing much...plotting them they always look like a straightline
+def initialize_slopes(N, T):
+    slopes = np.empty((T, 1), dtype=np.object)
+    for i in range(T):
+        slopes_ij = []
+        for j in range(N):
+            slopes_ij.append([3])
+        slopes[i, 0] = np.array(slopes_ij, dtype=float)
+    return(slopes)
