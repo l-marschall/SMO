@@ -14,7 +14,6 @@ from strategy import *
 from single_period_optimizer import *
 from Generator import GenerateR
 from GeneratorRealData import *
-from test import *
 # This function updates the slope and break points for each senario s
 
 
@@ -132,13 +131,13 @@ def update(break_point, slope, grad_v, h, s, k, T, N):
     return (newslope, newbp)
 
 
-T = 250
+T = 30
 N = 5
 beta = 0.05
-gamma = 0.9
-w = 1000  # initial wealth
-S = 300 # training iterations
-k = 10  # step size parameter
+gamma = 0.5
+w = 200  # initial wealth
+S = 40 # training iterations
+k = 200  # step size parameter
 
 
 
@@ -154,23 +153,26 @@ slopes = np.empty((T, 1), dtype=np.object)
 for i in range(T):
     slopes_ij = []
     for j in range(N):
-        slopes_ij.append([3])
+        slopes_ij.append([2])
     slopes[i, 0] = np.array(slopes_ij, dtype=float)
 
 
 
 
 for s in range(S):
-    R = np.asarray(dataR(N, T))
+    R = abs(np.asarray(GenerateR(N, T)))
     V, h, grad, finalwealth = strategy(bp, slopes, w, R, N, T, beta, gamma)
     slopes, bp = update(bp, slopes, grad, h, s, k, T, N)
 
 print(finalwealth)
 print(h)
 
-actualR = np.asarray(dataR(N, T))
-meanR = Rmean(N,T)
-meanR = meanR[0:N]
-hreal, wealthreal = test(bp,slopes,meanR,w,T,N,gamma,beta,actualR)
+#test 
+
+R=abs(np.asarray(GenerateR(N,T)))
+Vreal, hreal, gradreal, wealthreal = strategy(bp,slopes,w,R,N,T,beta,gamma)
 
 print(wealthreal)
+print(hreal)
+
+#slopes aren't changing much...plotting them they always look like a straightline
