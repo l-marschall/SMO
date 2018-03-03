@@ -24,7 +24,12 @@ S = 300  # training iterations
 k = 10  # step size parameter
 
 
-def excecute(N, T, beta, gamma, theta, w, S, k):
+def excecute(N, beta, gamma, theta, w, S, k):
+
+    data = dataR(N)
+    T = 52
+    S =
+
     bp = initialize_bp(N, T)
     slopes = initialize_slopes(N, T)
 
