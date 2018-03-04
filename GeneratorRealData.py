@@ -22,7 +22,9 @@ def dataR(N, T, interest_rate, file_csv='finaldf.csv'):
         nrows = data.shape[0]
         data_training = data[0: (nrows - T)]
         data_test = data[(nrows - T):]
-
+        # check for -inf number and replace by 1!
+        data_training = data_training.replace(float('-inf'), 1)
+        data_test = data_test.replace(float('-inf'), 1)
         return(data_training, data_test)
 
     else:
