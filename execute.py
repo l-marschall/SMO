@@ -19,7 +19,7 @@ year = 52  # each year has 52 weeks
 T = year * 3  # we always consider now for one iteration three years (= 52 weeks * 3)!
 interest_rate = 1.0001  # interst rate of the riskless asset per week!
 beta = 0.05
-gamma = 0.9
+gamma = 1
 theta = 0.001
 w = 1000  # initial wealth
 k = 100  # step size parameter
@@ -28,8 +28,8 @@ k = 100  # step size parameter
 def execute(N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv'):
 
     data_train, data_test = dataR(N, T, interest_rate, file_csv)
-    #data_test = data_train[200:357]
-    #data_train = data_train[:157]
+    # data_test = data_train[200:357]
+    # data_train = data_train[:157]
 
     nrows = data_train.shape[0]  # number of rows of the available training data
     # the training iterations are always maximized now and determined by the numer of datapoints!
@@ -64,23 +64,32 @@ def execute(N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv
 finalwealth, finalwealth_array, h_test, bp, slopes, V_optimization, finalwealth_test = execute(
     N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv')
 
-#finalwealth_test is 1077.279376331775
+# finalwealth_test is 1077.279376331775
 
-x, y = getcoord(bp[-1][-1].tolist(),slopes[-1][-1].tolist())
+x, y = getcoord(bp[-1][-1].tolist(), slopes[-1][-1].tolist())
 
-x1 = pd.Series(x,name="x")
-y1 = pd.Series(y,name="y")
-xy_df = pd.concat([x1,y1],axis=1)
+x1 = pd.Series(x, name="x")
+y1 = pd.Series(y, name="y")
+xy_df = pd.concat([x1, y1], axis=1)
 h_test_df = pd.DataFrame(h_test)
 finalwealthar_df = pd.DataFrame(finalwealth_array)
 V_optimization_df = pd.DataFrame(V_optimization)
 slopes_df = pd.DataFrame(slopes)
 bp_df = pd.DataFrame(bp)
 
+<<<<<<< HEAD
 xy_df.to_csv("xy.csv")
 h_test_df.to_csv("htest.csv")
 finalwealthar_df.to_csv("finalwealthar.csv")
 V_optimization_df.to_csv("V_optimization.csv")
 slopes_df.to_csv("slopes.csv")
 bp_df.to_csv("bp.csv")
+=======
+xy_df.to_csv("xy2.csv")
+h_test_df.to_csv("htest2.csv")
+finalwealthar_df.to_csv("finalwealthar2.csv")
+V_optimization_df.to_csv("V_optimization2.csv")
+slopes_df.to_csv("slopes2.csv")
+bp_df.to_csv("bp2.csv")
 
+>>>>>>> 47929174b91529a1edc16df85cb68236015c3912
