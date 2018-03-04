@@ -25,7 +25,7 @@ w = 1000  # initial wealth
 k = 100  # step size parameter
 
 
-def execute(N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv'):
+def execute(N, T, interest_rate, beta, gamma, theta, w, k, file_csv='csv_files/finaldf.csv'):
 
     data_train, data_test = dataR(N, T, interest_rate, file_csv)
 
@@ -60,7 +60,7 @@ def execute(N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv
 
 
 finalwealth, finalwealth_array, h_test, bp, slopes, V_optimization, finalwealth_test = execute(
-    N, T, interest_rate, beta, gamma, theta, w, k, file_csv='finaldf.csv')
+    N, T, interest_rate, beta, gamma, theta, w, k, file_csv='csv_files/finaldf.csv')
 
 # finalwealth_test is 1077.279376331775
 
@@ -76,18 +76,16 @@ slopes_df = pd.DataFrame(slopes)
 bp_df = pd.DataFrame(bp)
 
 
-xy_df.to_csv("xy.csv")
-h_test_df.to_csv("htest.csv")
-finalwealthar_df.to_csv("finalwealthar.csv")
-V_optimization_df.to_csv("V_optimization.csv")
-slopes_df.to_csv("slopes.csv")
-bp_df.to_csv("bp.csv")
+xy_df.to_csv("csv_files/xy.csv")
+h_test_df.to_csv("csv_files/htest.csv")
+finalwealthar_df.to_csv("csv_files/finalwealthar.csv")
+V_optimization_df.to_csv("csv_files/V_optimization.csv")
+slopes_df.to_csv("csv_files/slopes.csv")
+bp_df.to_csv("csv_files/bp.csv")
 
-xy_df.to_csv("xy5.csv")
-h_test_df.to_csv("htest5.csv")
-finalwealthar_df.to_csv("finalwealthar5.csv")
-V_optimization_df.to_csv("V_optimization5.csv")
-slopes_df.to_csv("slopes5.csv")
-bp_df.to_csv("bp5.csv")
-
-
+xy_df.to_csv("csv_files/xy5.csv")
+h_test_df.to_csv("csv_files/htest5.csv")
+finalwealthar_df.to_csv("csv_files/finalwealthar5.csv")
+V_optimization_df.to_csv("csv_files/V_optimization5.csv")
+slopes_df.to_csv("csv_files/slopes5.csv")
+bp_df.to_csv("csv_files/bp5.csv")

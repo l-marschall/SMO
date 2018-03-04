@@ -6,7 +6,7 @@ dir_path = os.path.dirname(os.path.realpath(currentFile))
 os.chdir(dir_path)
 
 
-def dataR(N, T, interest_rate, file_csv='finaldf.csv'):
+def dataR(N, T, interest_rate, file_csv='csv_files/finaldf.csv'):
     data = pd.read_csv(file_csv, index_col=0)
     data = data.iloc[:, 1:]  # remove timestamp from data set
 

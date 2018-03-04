@@ -21,14 +21,3 @@ def GenerateR(N, T, distribution='student-t', df=10, mu=0, sigma=0.3):
     R[:, 0] = 1.00005  # gives me the first row. Now making it a constant
 
     return(R)
-
-
-# Examples
-FirstTry = GenerateR(N=10, T=100)  # 10 values (one per stock) for 100 times.
-Normal = GenerateR(N=10, T=100, distribution='normal', mu=5)
-
-# Checking for shape
-Normal.shape
-
-# Checking for values
-FirstTry

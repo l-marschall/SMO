@@ -5,7 +5,7 @@ S. Hamed Mirsadeghi
 This file train the model.
 """
 import os
-currentFile = 'trainer-02'
+currentFile = 'trainer'
 dir_path = os.path.dirname(os.path.realpath(currentFile))
 os.chdir(dir_path)
 import numpy as np

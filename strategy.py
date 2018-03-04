@@ -10,15 +10,6 @@ from Generator import GenerateR
 from GeneratorRealData import *
 
 
-def parameter_check(b, s):
-    for i in range(0, T):
-        for j in range(0, N):
-            if len(b[i, 0][j]) == len(s[i, 0][j]):
-                pass
-            else:
-                print('Different length of breakpoints and slopes at', i, j)
-
-
 def strategy(b, s, w, R, N, T, beta, gamma, theta):
     """
     :param b:       Breakpoints' matrix over all periods
