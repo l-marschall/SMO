@@ -20,12 +20,12 @@ def dataR(N, T, interest_rate, file_csv='finaldf.csv'):
         data.iloc[0:, 1:] = 1 + data.iloc[0:, 1:].diff(periods=1, axis=0) / data.iloc[0:, 1:]
         data = data[1:]
         nrows = data.shape[0]
-        data_training = data[0: (nrows - T)]
+        data_train = data[0: (nrows - T)]
         data_test = data[(nrows - T):]
         # check for -inf number and replace by 1!
-        data_training = data_training.replace(float('-inf'), 1)
+        data_train = data_train.replace(float('-inf'), 1)
         data_test = data_test.replace(float('-inf'), 1)
-        return(data_training, data_test)
+        return(data_train, data_test)
 
     else:
         print('More stocks selected than available in data frame', '!')
