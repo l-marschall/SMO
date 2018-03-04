@@ -32,7 +32,7 @@ ggplot(sp500_comparison, aes(x = dates, diff)) + geom_line(color = 'navy', size 
   xlab('Difference') + ylab('Date') +
   ggtitle('Difference between portfolio value and S&P500') +
   geom_hline(yintercept = 0, linetype = 'dashed')
-ggsave('sp500_comparison.pdf', width = 16, height = 9)
+ggsave('plots/sp500_comparison_gamma0.9.pdf', width = 16, height = 9)
 
 
 htest = melt(htest, id = 'index')
@@ -41,7 +41,7 @@ ggplot(htest, aes(x = index, y = value, colour = variable)) +
   geom_point(size = 5) + geom_line(size = 0.3) +
   ggtitle('Investments in different stocks over three years of the test set') +
   xlab('Period') + ylab('Investment in stocks in USD')
-ggsave('htest.pdf', width = 16, height = 9)
+ggsave('plots/htest_gamma0.9.pdf', width = 16, height = 9)
 
 
 
@@ -51,7 +51,7 @@ ggplot(finalwealth, aes(x = index, y = wealth)) +
   geom_line(color = 'navy', size = 0.5) + geom_smooth(color = 'red') +
   ggtitle('Final wealth of the training process') +
   xlab('Period') + ylab('Wealth in USD')
-ggsave('finalwealth.pdf', width = 16, height = 9)
+ggsave('plots/finalwealth_gamma0.9.pdf', width = 16, height = 9)
 
 
 finaldf <- read.csv('finaldf.csv')
