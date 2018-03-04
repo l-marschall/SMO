@@ -75,19 +75,19 @@ V_optimization_df = pd.DataFrame(V_optimization)
 slopes_df = pd.DataFrame(slopes)
 bp_df = pd.DataFrame(bp)
 
-<< << << < HEAD
+
 xy_df.to_csv("xy.csv")
 h_test_df.to_csv("htest.csv")
 finalwealthar_df.to_csv("finalwealthar.csv")
 V_optimization_df.to_csv("V_optimization.csv")
 slopes_df.to_csv("slopes.csv")
 bp_df.to_csv("bp.csv")
-== == == =
-xy_df.to_csv("xy2.csv")
-h_test_df.to_csv("htest2.csv")
-finalwealthar_df.to_csv("finalwealthar2.csv")
-V_optimization_df.to_csv("V_optimization2.csv")
-slopes_df.to_csv("slopes2.csv")
-bp_df.to_csv("bp2.csv")
 
->>>>>> > 47929174b91529a1edc16df85cb68236015c3912
+xy_df.to_csv("xy5.csv")
+h_test_df.to_csv("htest5.csv")
+finalwealthar_df.to_csv("finalwealthar5.csv")
+V_optimization_df.to_csv("V_optimization5.csv")
+slopes_df.to_csv("slopes5.csv")
+bp_df.to_csv("bp5.csv")
+
+
